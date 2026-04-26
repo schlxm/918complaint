@@ -1,49 +1,63 @@
 import streamlit as st
 import random
 
-st.set_page_config(page_title="918 Weather Sentry", page_icon="🚜")
+# --- TULSA CONFIG ---
+st.set_page_config(page_title="918 Sentry 2.0", page_icon="🏗️")
 
-st.title("🚜 The 918 Weather Sentry")
-st.caption("Because in Tulsa, if you don't like the weather, just wait 5 minutes and it'll be worse.")
+# MOCK API DATA (Sunday, April 26, 2026)
+# Once you get an API key, we replace these hardcoded values with a requests.get()
+current_temp = 65 
+humidity = 89
+condition = "Heavy Thunderstorm Incoming"
+wind_speed = 6 
 
-# --- SIMULATED DATA ---
-# Feel free to tweak these while sitting on the couch to see different results
-temp = 88 
-humidity = 75
-wind_speed = 25 # MPH
-is_construction_season = True # This is always True in Tulsa
+st.title("🏗️ 918 Weather Sentry: Pro Edition")
+st.write(f"**Current Status:** {current_temp}°F | {condition}")
 
-st.subheader(f"Current Stats: {temp}°F | {humidity}% Humidity | {wind_speed} MPH Wind")
+# --- THE EXPANDED COMPLAINT VAULT ---
+tulsa_complaints = [
+    "The 169 is currently a parking lot. It would be faster to walk, but it's humid enough to grow gills.",
+    "Forecast says 'Sunny' tomorrow, but Travis Meyer hasn't rolled up his sleeves yet, so I don't believe it.",
+    "There's a new pothole on 71st street that just registered for its own ZIP code.",
+    "Humidity is at 89%. My hair now has the structural integrity of a cotton candy machine.",
+    "Construction on 31st & Peoria has officially entered its 4th decade. The orange cones are now historical landmarks.",
+    "The wind is blowing 6mph out of the SE, which means the refinery smell is currently a 'local delicacy'.",
+    "It's Sunday morning. QuikTrip is out of the good breakfast pizza. Life is a void.",
+    "A single raindrop hit the IDL, so naturally, everyone has forgotten how to drive 65mph.",
+    "The Gathering Place is probably packed. Avoid at all costs unless you enjoy dodging strollers.",
+    "I saw a guy at 91st & Yale driving a lifted truck like it’s a jet ski. Stay safe out there.",
+    "It's 65 degrees now, but Monday says 87. My thermostat is going to have a mid-life crisis by noon.",
+    "The Golden Driller is currently staring at the clouds and wondering why he doesn't have an umbrella."
+]
 
-# --- THE TULSA LOGIC ---
-def get_tulsa_complaint(t, h, w, c):
-    if w > 30:
-        return "The wind is currently trying to relocate your patio furniture to Broken Arrow. Stay inside."
-    elif h > 70 and t > 85:
-        return "It's so muggy the Golden Driller is starting to sweat. You will need a snorkel to walk to your car."
-    elif t > 95:
-        return "It's 'Surface of the Sun' season. Riverside Drive is currently melting. Avoid all contact with asphalt."
-    elif 50 < t < 70 and w < 10:
-        return "The weather is actually perfect, which means a massive cold front or a tornado is definitely 20 minutes away."
-    elif c:
-        return "The weather is fine, but the 169 is a parking lot and there's a new pothole on Yale that could swallow a Miata. Stay home."
-    else:
-        return "Check the sky. If it's green, head to the center-most room."
-
+# --- THE SENTRY OUTPUT ---
 with st.chat_message("user", avatar="🤠"):
-    st.write(f"**Tulsa Sentry says:** {get_tulsa_complaint(temp, humidity, wind_speed, is_construction_season)}")
+    st.write(f"**Sentry Alert:** {random.choice(tulsa_complaints)}")
 
-# --- THE "TULSA VIBE" GENERATOR ---
+# --- THE "STAY HOME" METER ---
 st.divider()
-if st.button("Generate a Local Weekend Plan"):
+st.subheader("Should I stay on the couch?")
+
+# Logic based on today's heavy thunderstorm forecast
+risk_score = 0
+if humidity > 80: risk_score += 30
+if "thunderstorm" in condition.lower(): risk_score += 50
+if current_temp < 70: risk_score += 20
+
+st.progress(risk_score / 100)
+if risk_score > 80:
+    st.error("COUCH STATUS: MANDATORY. Order some local BBQ and wait for the green sky to pass.")
+else:
+    st.success("COUCH STATUS: OPTIONAL. But why would you leave?")
+
+# --- TULSA WEEKEND GENERATOR ---
+if st.button("Generate a 918 Weekend Plan"):
     plans = [
-        "Go to the Gathering Place, realize it's too crowded, and end up at a QuikTrip for a Big Q.",
-        "Drive to Jenks, look at the fish, and complain about the traffic on the bridge.",
-        "Go to Brookside, look for parking for 45 minutes, then go home and order delivery.",
-        "Visit the Center of the Universe, scream into the void, and hope the void doesn't scream back about your taxes.",
-        "Go to Cain's Ballroom, stand in the back, and nod your head slightly while protecting your personal space."
+        "Go to the Cherry Street Farmers Market, buy one loaf of bread for $12, and feel cultured.",
+        "Drive to the Blue Whale in Catoosa, take one photo, and wonder why you drove that far.",
+        "Attempt to find the 'Center of the Universe' and get disappointed by the acoustics again.",
+        "Go to a 918-themed brewery and pretend you can taste the 'notes of Arkansas River water'."
     ]
-    st.success(random.choice(plans))
+    st.info(random.choice(plans))
 
-st.divider()
-st.caption("Data source: Trust me, I looked out the window. | Always check for Ozone Alerts.")
+st.caption(f"Last updated: Sunday, April 26 | Data provided by 918 Vibes™")
